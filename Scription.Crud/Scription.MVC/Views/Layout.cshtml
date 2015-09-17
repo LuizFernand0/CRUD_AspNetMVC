@@ -1,0 +1,35 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CRUD By Scription</title>
+    <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/Style.css")"  rel="stylesheet" />
+
+</head>
+<body>
+        <div class="container page-header text-center" id="header">
+            <h3>
+            Teste Crud Basico
+            </h3>
+        </div>
+    <div class="container" >
+        @RenderBody()
+    </div><!--Fim container-->
+    <div class="container panel-footer" >
+        <div id="footer" class="text-center text-info">
+            Teste Crud, Tecnologias  C# ,AspNet MVC , Bootstrap, EntityFramework (db Fist).
+        </div>
+    </div>
+    <script src="@Url.Content("~/Scripts/jquery-2.1.4.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap.min.js")"></script>
+    @RenderSection("script", required: false);
+</body>
+</html>
+
+

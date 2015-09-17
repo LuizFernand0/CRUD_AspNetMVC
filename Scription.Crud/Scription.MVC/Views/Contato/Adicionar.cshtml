@@ -1,0 +1,56 @@
+﻿@model Scription.MVC.Models.Contato
+
+@{
+    ViewBag.Title = "Adicionar";
+}
+
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="panel panel-info">
+
+        <div class="panel-heading">
+            Novo contato
+        </div>
+     
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-lg-6">
+
+                    @Html.LabelFor(model => model.Nome)
+                    @Html.TextBoxFor(model => model.Nome, new { @class = "form-control", placeHolder = "Ex: Luiz Fernando" })
+
+                    @Html.ValidationMessageFor(model => model.Nome, String.Empty, new { @class = "text-danger" })
+
+                </div><!--/col-lg-6-->
+            </div><!--/row-->
+
+            <div class="row">
+                <div class="col-lg-6">
+                    @Html.LabelFor(model => model.Telefone)
+                    @Html.TextBoxFor(model => model.Telefone, new { @class = "form-control", placeHolder = "Ex: 985446476", })
+
+                    @Html.ValidationMessageFor(model => model.Telefone, String.Empty, new { @class = "text-danger" })
+                </div><!--/col-lg-6-->
+            </div><!--/row-->
+            <div class="row">
+                <div class="col-lg-6">
+                    @Html.LabelFor(model => model.Email)
+                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeHolder = "Ex: luizfernando_santos@hotmail.com" })
+
+                    @Html.ValidationMessageFor(model => model.Email, String.Empty, new {@class="text-danger"})
+                </div><!--/col-lg-6-->
+            </div><!--/row-->
+       
+        </div><!--/panel-->
+
+        <div class="panel-footer">
+
+            @Html.ActionLink("Voltar", "Index", "", new { @class = "btn btn-danger" })
+            <input type="submit" value="Concluir" class="btn btn-success" />
+        </div>
+       </div>
+ }
+        
