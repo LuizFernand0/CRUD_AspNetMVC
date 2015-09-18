@@ -4,15 +4,28 @@
     ViewBag.Title = "Index";
 }
 
-<p>
-    @Html.ActionLink("Criar novo", "Adicionar","", new {@class="btn btn-default"})
-</p>
+<form role="form">
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-btn">
+                @Html.ActionLink("Criar novo", "Adicionar", "", new { @class = "btn btn-default" })
+            </span>
+            <input type="text" class="form-control" id="txtProcurar" placeholder="Procurar por:" />
+            <span class="input-group-btn">
+                <button type="button" id="procurar"class="btn btn-primary" value="Procurar">Procurar</button>
+            </span>
+        </div>
+    </div>
+</form>
+
 <div class="panel panel-info">
     <div class="panel-heading">Todos</div>
     <div class="panel-body">
         <table class="table table-hover table-condensed">
             <thead>
-                <tr>
+                <tr><th>
+                        #
+                    </th>
                     <th>
                         Nome
                     </th>
@@ -22,34 +35,72 @@
                     <th>
                         Email
                     </th>
-                    <th>
+                    <th id="acoes">
                         Acoes
                     </th>
                 </tr>
             </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Nome)
-                        </td>
-                       <td>
-                            @Html.DisplayFor(modelItem => item.Telefone)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Email)
-                        </td>
-                        <td>
-                            <div class="btn-group" role="group">
-                                @Html.ActionLink("Editar", "Editar", new { id = item.IDContato }, new { @class = "btn btn-default"})
-                                @Html.ActionLink("Excluir", "Excluir", new { id = item.IDContato }, new { @class = "btn btn-default", @Onclick="if (!confirm('Deseja realmente Excluir ?'))return false;" })
-                            </div>
-                        </td>
-                    </tr>
-                }
+            <tbody id="resultado">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IDContato)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nome)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Telefone)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td id="acoes">
+                                <div class="btn-group" role="group">
+                                    @Html.ActionLink("Editar", "Editar", new { id = item.IDContato }, new { @class = "btn btn-default" })
+                                    @Html.ActionLink("Excluir", "Excluir", new { id = item.IDContato }, new { @class = "btn btn-default", @Onclick = "if (!confirm('Deseja realmente Excluir ?'))return false;" })
+                                </div>
+                            </td >
+                        </tr>
+                    }
             </tbody>
         </table>
+      
     </div>
 </div>
+
+@section script{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#procurar").on("click", function () {
+                var nome = { Nome: $("#txtProcurar").val() }
+                $.getJSON(
+                    "/Contato/Procurar",
+                    nome,
+                    function (data) {
+                        var resultado = $("#resultado");
+
+                        resultado.empty();
+
+                        if (data.length == 0) {
+                            resultado.append('<td colspan="4">Nenhum contato encontrado</td>');
+                            return false;
+                        }
+
+                        for (var i = 0; i < data.length; i++) {
+                            resultado.append(
+                                '<tr><td>' + data[i].IDContato + '</td>'+
+                                '<td>' + data[i].Nome + '</td>' +
+                                '<td>' + data[i].Telefone + '</td>' +
+                                '<td>' + data[i].Email + '</td>' +
+                                '<td></td>'
+                                );
+                        }
+                    }
+                 )
+            })
+        });
+    </script>
+}

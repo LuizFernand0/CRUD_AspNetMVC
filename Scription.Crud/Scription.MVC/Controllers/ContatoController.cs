@@ -16,11 +16,21 @@ namespace Scription.MVC.Controllers
 
         public ActionResult Index()
         {
+
             var contatos = banco.Contato.ToList();
 
             return View(contatos);
 
         }
+        public JsonResult Procurar(Contato contato)
+        {
+            var contatos = from c in banco.Contato
+                          where c.Nome == contato.Nome
+                          select c;
+
+            return Json(contatos, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Adicionar()
         {
             return View();
@@ -32,6 +42,7 @@ namespace Scription.MVC.Controllers
             if (ModelState.IsValid)
             {
                 bool teste = banco.Contato.ToList().Exists(c => c.Nome == contato.Nome);
+
                 if (!banco.Contato.ToList().Exists(c => c.Nome == contato.Nome))
                 {
                     banco.Contato.Add(contato);
@@ -101,5 +112,6 @@ namespace Scription.MVC.Controllers
                 throw new UpdateException(ex.StackTrace); 
             }
         }
+    
      }
 }
